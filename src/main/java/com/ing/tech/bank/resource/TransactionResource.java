@@ -23,5 +23,4 @@ public class TransactionResource {
     public List<TransactionDto> getAll() {
         return transactionService.getAll();
     }
-
 }
