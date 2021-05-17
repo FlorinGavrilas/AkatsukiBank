@@ -1,6 +1,7 @@
 package com.ing.tech.bank.service;
 
 import com.ing.tech.bank.exceptions.IbanNotFoundException;
+import com.ing.tech.bank.logging.InfoLogger;
 import com.ing.tech.bank.model.dto.AccountDto;
 import com.ing.tech.bank.model.entities.Account;
 import com.ing.tech.bank.repository.AccountRepository;
@@ -15,14 +16,24 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final InfoLogger infoLogger;
 
     public AccountDto save(AccountDto account, String username) {
+
+        //TODO update save so that it will update an account if there is already one accoutn with the same account.
+//        Account accountEntity = new Account(username, account.getIban(), account.getBalance(), account.getCurrency());
+//        Account savedAccount = accountRepository.save(accountEntity);
+
         Account accountEntity;
 
-        Optional<Account> currentAccount = Optional.of(accountRepository.findAccountByIban(account.getIban()).get());
+        Optional<Account> currentAccount = accountRepository.findAccountByIban(account.getIban());
 
-        accountEntity = currentAccount.get();
-        accountEntity.setBalance(account.getBalance());
+        if (currentAccount.isPresent()) {
+            accountEntity = currentAccount.get();
+            accountEntity.setBalance(account.getBalance());
+        } else {
+            accountEntity = new Account(username, account.getIban(), account.getBalance(), account.getCurrency());
+        }
 
         Account savedAccount = accountRepository.save(accountEntity);
 
