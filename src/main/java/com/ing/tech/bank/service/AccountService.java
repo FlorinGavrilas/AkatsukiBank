@@ -6,6 +6,7 @@ import com.ing.tech.bank.model.dto.AccountDto;
 import com.ing.tech.bank.model.entities.Account;
 import com.ing.tech.bank.repository.AccountRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,21 +15,21 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AccountService {
     private final AccountRepository accountRepository;
     private final InfoLogger infoLogger;
 
     public AccountDto save(AccountDto account, String username) {
 
-        //TODO update save so that it will update an account if there is already one accoutn with the same account.
-//        Account accountEntity = new Account(username, account.getIban(), account.getBalance(), account.getCurrency());
-//        Account savedAccount = accountRepository.save(accountEntity);
-
         Account accountEntity;
 
         Optional<Account> currentAccount = accountRepository.findAccountByIban(account.getIban());
-
         if (currentAccount.isPresent()) {
+            if (!username.equals(currentAccount.get().getUsername())) {
+                throw new IbanNotFoundException("Account could not be created.");
+            }
+
             accountEntity = currentAccount.get();
             accountEntity.setBalance(account.getBalance());
         } else {

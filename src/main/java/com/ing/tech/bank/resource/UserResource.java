@@ -1,7 +1,6 @@
 package com.ing.tech.bank.resource;
 
 import com.ing.tech.bank.model.dto.UserDto;
-import com.ing.tech.bank.service.AccountService;
 import com.ing.tech.bank.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import java.util.List;
 public class UserResource {
 
     private final UserService userService;
-    private final AccountService accountService;
 
     @PostMapping
     public ResponseEntity<UserDto> save(@RequestBody UserDto user) {

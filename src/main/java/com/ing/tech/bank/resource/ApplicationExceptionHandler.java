@@ -34,4 +34,9 @@ public class ApplicationExceptionHandler {
         return ResponseEntity.status(404).body(new RestErrorObject("Something went wrong with the transaction."));
     }
 
+    @ExceptionHandler(InvalidUserOrPasswordException.class)
+    public ResponseEntity<RestErrorObject> handleUserOrPasswordError(Exception ex, WebRequest webRequest) {
+        return ResponseEntity.status(404).body(new RestErrorObject("Invalid username or password."));
+    }
+
 }

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionDto {
+    private Long id;
     private String ibanSender;
     private String ibanReceiver;
     private String type;

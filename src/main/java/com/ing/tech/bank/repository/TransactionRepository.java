@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    Transaction findTransactionById(Long id);
     List<Transaction> findTransactionByIbanReceiverAndType(String ibanReceiver, String type);
     List<Transaction> findTransactionByIbanSenderAndType(String ibanSender, String type);
     @Query(value = "SELECT * FROM Transaction AS t WHERE STRCMP(t.iban_sender, ?1) = 0 OR STRCMP(t.iban_receiver, ?1) = 0", nativeQuery = true)
