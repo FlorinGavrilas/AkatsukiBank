@@ -6,6 +6,7 @@ import com.ing.tech.bank.exceptions.TransactionException;
 import com.ing.tech.bank.logging.InfoLogger;
 import com.ing.tech.bank.model.dto.AccountDto;
 import com.ing.tech.bank.model.dto.TransactionDto;
+import com.ing.tech.bank.model.entities.ExchangeRate;
 import com.ing.tech.bank.model.entities.Transaction;
 import com.ing.tech.bank.repository.TransactionRepository;
 import com.ing.tech.bank.security.JwtTokenUtil;
@@ -134,7 +135,8 @@ public class TransactionService {
         AccountDto sender = accountService.getByIban(transactionDto.getIbanSender());
         AccountDto receiver = accountService.getByIban(transactionDto.getIbanReceiver());
 
-        double receivedAmount = transactionDto.getAmount() * currencyService.getConversionRate(sender.getCurrency(), receiver.getCurrency());
+        //double receivedAmount = transactionDto.getAmount() * currencyService.getConversionRate(sender.getCurrency(), receiver.getCurrency());
+        double receivedAmount = transactionDto.getAmount() * ExchangeRate.getRate(sender.getCurrency(), receiver.getCurrency());
 
         sender.setBalance(sender.getBalance() - transactionDto.getAmount());
         receiver.setBalance(receiver.getBalance() + receivedAmount);

@@ -39,4 +39,10 @@ public class ApplicationExceptionHandler {
         return ResponseEntity.status(404).body(new RestErrorObject("Invalid username or password."));
     }
 
+    @ExceptionHandler(ExchangeRateException.class)
+    public ResponseEntity<RestErrorObject> handleExchangeRequestError(Exception ex, WebRequest webRequest) {
+        return ResponseEntity.status(404).body(new RestErrorObject("Something went wrong when calling the API."));
+    }
+
+
 }
