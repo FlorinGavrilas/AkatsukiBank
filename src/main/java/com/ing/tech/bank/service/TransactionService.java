@@ -155,7 +155,8 @@ public class TransactionService {
             case "2":
                 //make swap
                 validateRequest(transactionDto, username);
-                transactionDto.setAmount(transactionDto.getAmount() * currencyService.getConversionRate(accountService.getByIban(transactionDto.getIbanReceiver()).getCurrency(), accountService.getByIban(transactionDto.getIbanSender()).getCurrency()));
+                //transactionDto.setAmount(transactionDto.getAmount() * currencyService.getConversionRate(accountService.getByIban(transactionDto.getIbanReceiver()).getCurrency(), accountService.getByIban(transactionDto.getIbanSender()).getCurrency()));
+                transactionDto.setAmount(transactionDto.getAmount() *  ExchangeRate.getRate(accountService.getByIban(transactionDto.getIbanReceiver()).getCurrency(), accountService.getByIban(transactionDto.getIbanSender()).getCurrency()));
                 String ibanSwap = transactionDto.getIbanSender();
                 transactionDto.setIbanSender(transactionDto.getIbanReceiver());
                 transactionDto.setIbanReceiver(ibanSwap);
